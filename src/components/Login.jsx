@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 const Login = () => {
   const [isSignIn, setIsSignIn] = useState();
   const [errorMessage, setErrorMessage] = useState(null);
+  const [isSuccess, setIsSuccess] = useState(false); // For success or error messages
   const navigate = useNavigate();
 
   // create reference value to all input fields using useRef hooks
@@ -28,6 +29,7 @@ const Login = () => {
       password.current.value
     );
     setErrorMessage(message);
+    setIsSuccess(false); // Reset success state for validation errors
 
     if (message) return;
 
@@ -41,12 +43,16 @@ const Login = () => {
       )
         .then((userCredential) => {
           const user = userCredential.user;
-          console.log(user);
-          navigate("product");
+          
+        // After successful signup, switch to Sign In mode
+        setIsSuccess(true); // Mark as success
+        setErrorMessage("Sign Up successful! Please log in.");
+        setIsSignIn(true); // Toggle to Sign In form
         })
         .catch((error) => {
           const errorCode = error.code;
           const errorMessage = error.message;
+          setIsSuccess(false); // Mark as error
           setErrorMessage(errorCode + " - " + errorMessage);
         });
     } else {
@@ -63,6 +69,7 @@ const Login = () => {
         .catch((error) => {
           const errorCode = error.code;
           const errorMessage = error.message;
+          setIsSuccess(false); // Mark as error
           setErrorMessage(errorCode + " - " + errorMessage);
         });
     }
@@ -106,7 +113,10 @@ const Login = () => {
           className="w-full py-3 px-7 
             rounded bg-black text-white border border-grayText  focus:border-white"
         />
-        <p className="text-red-500">{errorMessage}</p>
+         {/* Success/Error message */}
+      <p className={isSuccess ? "text-green-600 " : "text-red-500"}>
+        {errorMessage}
+      </p>
 
         <button
           onClick={handleButtonClick}
