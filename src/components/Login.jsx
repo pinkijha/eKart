@@ -3,6 +3,7 @@ import { checkValidData } from "../utils/Validate";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../utils/firebase";
 import { useNavigate } from "react-router-dom";
+import Header from "./Header";
 
 const Login = () => {
   const [isSignIn, setIsSignIn] = useState();
@@ -77,6 +78,8 @@ const Login = () => {
 
   return (
     <div className=" ">
+      
+      <Header/>
       <form
         onSubmit={(e) => e.preventDefault()}
         className="md:space-y-4 space-y-2 rounded-xl shadow-lg

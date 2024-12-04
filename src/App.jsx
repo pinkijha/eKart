@@ -12,7 +12,6 @@ function App() {
     <>
      <Provider store={appStore}>
      <div>
-        <Header/>
         <Home/>
       </div>
      </Provider>
