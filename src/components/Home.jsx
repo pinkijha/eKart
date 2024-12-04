@@ -6,6 +6,7 @@ import { auth } from '../utils/firebase'
 import { onAuthStateChanged } from 'firebase/auth'
 import { useDispatch } from 'react-redux';
 import {addUser, removeUser} from '../utils/userSlice'
+import ProductDetail from './ProductDetail'
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -17,6 +18,10 @@ const Home = () => {
         {
             path: '/product',
             element: <Products/>
+        },
+        {
+            path: '/product/:productId',
+            element: <ProductDetail/>
         },
    ] )
 

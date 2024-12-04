@@ -56,16 +56,16 @@ const Header = () => {
       <div>{/* Add other header elements here */}</div>
       {/* Show user icon and Log Out button only if the user is logged in */}
       {isUserLoggedIn && (
-        <div className="flex shadow-xl bg-slate-200
-         cursor-pointer m-1 hover:bg-slate-300 hover:scale-95 duration-200 rounded-full">
+        <div className="flex shadow-xl items-center bg-slate-200
+         cursor-pointer m-1 hover:bg-slate-300 hover:scale-90 duration-200 rounded-full">
           <img
-            className="w-[40px] h-[40px] my-2 mx-2 rounded-2xl"
+            className="w-[30px] h-[30px] my-2 mx-2 rounded-2xl"
             alt="userIcon"
             src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
           />
           <button
             onClick={handleSignOut}
-            className="font-bold text-lg rounded-lg space-x-1 mr-2"
+            className="font-semibold text-sm rounded-lg space-x-1 mr-2"
           >
             Log Out
           </button>

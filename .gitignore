@@ -13,6 +13,12 @@ dist-ssr
 *.local
 
 
+# temporary component
+/src/components/Products.jsx
+/src/components/ProductForm.jsx
+/src/components/ProductDetail.jsx
+
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
@@ -23,3 +29,5 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+# hide the API KEY
+.env
