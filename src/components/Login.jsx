@@ -2,10 +2,12 @@ import React, { useRef, useState } from "react";
 import { checkValidData } from "../utils/Validate";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../utils/firebase";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [isSignIn, setIsSignIn] = useState();
   const [errorMessage, setErrorMessage] = useState(null);
+  const navigate = useNavigate();
 
   // create reference value to all input fields using useRef hooks
   const name = useRef(null);
@@ -40,6 +42,7 @@ const Login = () => {
         .then((userCredential) => {
           const user = userCredential.user;
           console.log(user);
+          navigate("product");
         })
         .catch((error) => {
           const errorCode = error.code;
@@ -55,6 +58,7 @@ const Login = () => {
         .then((userCredential) => {
           const user = userCredential.user;
           console.log(user);
+           navigate("product");
         })
         .catch((error) => {
           const errorCode = error.code;
