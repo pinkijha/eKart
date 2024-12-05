@@ -3,7 +3,8 @@ import { auth } from "../utils/firebase";
 import { signOut, onAuthStateChanged } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import {addUser, removeUser} from '../utils/userSlice'
+import {addUser, removeUser} from '../utils/userSlice';
+import { CiSearch } from "react-icons/ci";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -56,7 +57,16 @@ const Header = () => {
       <div>{/* Add other header elements here */}</div>
       {/* Show user icon and Log Out button only if the user is logged in */}
       {isUserLoggedIn && (
-        <div className="flex shadow-xl items-center bg-slate-200
+        <div className="mr-3 flex justify-between items-center">
+        <div className="px-3 py-2 border border-gray-400 rounded-l-full">
+        <input className="outline-none" type="text" placeholder="Search" />
+        </div>
+
+        <button className="px-4 py-2 border border-gray-400 rounded-r-full bg-gray-100">
+          <CiSearch size={"24px"} />
+        </button>
+        
+        <div className="flex md:ml-2 shadow-xl items-center bg-slate-200
          cursor-pointer m-1 hover:bg-slate-300 hover:scale-90 duration-200 rounded-full">
           <img
             className="w-[30px] h-[30px] my-2 mx-2 rounded-2xl"
@@ -69,6 +79,8 @@ const Header = () => {
           >
             Log Out
           </button>
+        </div>
+
         </div>
       )}
     </div>

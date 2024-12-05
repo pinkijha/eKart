@@ -1,12 +1,11 @@
 import React, { useEffect } from 'react'
 import Login from './Login'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import Products from './Products'
 import { auth } from '../utils/firebase'
 import { onAuthStateChanged } from 'firebase/auth'
 import { useDispatch } from 'react-redux';
 import {addUser, removeUser} from '../utils/userSlice'
-import ProductDetail from './ProductDetail'
+import Product from './Product'
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -17,12 +16,9 @@ const Home = () => {
         },
         {
             path: '/product',
-            element: <Products/>
+            element: <Product/>
         },
-        {
-            path: '/product/:productId',
-            element: <ProductDetail/>
-        },
+        
    ] )
 
   //  useEffect(() =>{

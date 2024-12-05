@@ -14,9 +14,9 @@ dist-ssr
 
 
 # temporary component
-/src/components/Products.jsx
-/src/components/ProductForm.jsx
-/src/components/ProductDetail.jsx
+/src/components/Products/Products.jsx
+/src/components/Products/ProductForm.jsx
+/src/components/Products/ProductDetail.jsx
 
 
 # Editor directories and files
