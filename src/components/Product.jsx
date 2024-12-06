@@ -13,6 +13,8 @@ const Product = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [productList, setProductList] = useState([]);
   const [editingProduct, setEditingProduct] = useState(null);
+  const [viewProduct, setViewProduct] = useState(null);
+  const [isViewModalOpen, setIsViewModalOpen] = useState(false);
 
   const handleOpenModal = () => setIsModalOpen(true);
   const handleCloseModal = () => setIsModalOpen(false);
@@ -36,6 +38,13 @@ const Product = () => {
     return () => unsubscribe(); // Cleanup subscription
   }, []);
 
+  // Handle View product
+  const handleViewProduct = (product) => {
+    setViewProduct(product);
+    setIsViewModalOpen(true);
+  };
+
+  // Handle delete product
   const handleDelete = async (id) => {
     try {
       const productRef = ref(database, `products/${id}`);
@@ -67,6 +76,24 @@ const Product = () => {
     }}
     editingProduct={editingProduct}
   />
+        </Modal>
+
+
+        <Modal isOpen={isViewModalOpen} onClose={() => setIsViewModalOpen(false)}>
+          {viewProduct && (
+            <div>
+              <h2 className="text-xl font-bold mb-4">{viewProduct.productName}</h2>
+              <img
+                src={viewProduct.imageUrl}
+                alt={viewProduct.productName}
+                className="w-full h-64 object-cover rounded-lg mb-4"
+              />
+              <p><strong>Brand:</strong> {viewProduct.brand}</p>
+              <p><strong>Category:</strong> {viewProduct.category}</p>
+              <p><strong>Description:</strong> {viewProduct.description}</p>
+              <p><strong>Price:</strong> ${viewProduct.price}</p>
+            </div>
+          )}
         </Modal>
 
         {/* Add Product Button */}
@@ -113,7 +140,8 @@ const Product = () => {
                   <td className={tdStyle}>${product.price}</td>
                   <td className={tdStyle}>
                     <span className="flex space-x-2">
-                      <button className="text-green-600 text-2xl font-semibold shadow-sm p-1 rounded-lg hover:scale-110 duration-200">
+                      <button  onClick={() => handleViewProduct(product)}
+                       className="text-green-600 text-2xl font-semibold shadow-sm p-1 rounded-lg hover:scale-110 duration-200">
                         <FaEye />
                       </button>
                       <button
