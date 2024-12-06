@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import { push, ref } from 'firebase/database';
-import { database } from '../utils/firebase';
+import { push, ref, update } from "firebase/database";
+import { useState, useEffect } from "react";
+import { database } from "../utils/firebase"; // Ensure proper import
 
-const AddProductForm = ({ onClose }) => {
+const AddProductForm = ({ onClose, editingProduct }) => {
   const [productName, setProductName] = useState('');
   const [brand, setBrand] = useState('');
   const [category, setCategory] = useState('');
@@ -10,26 +10,51 @@ const AddProductForm = ({ onClose }) => {
   const [price, setPrice] = useState('');
   const [imageUrl, setImageUrl] = useState('');
 
+  // Populate form fields when editingProduct changes
+  useEffect(() => {
+    if (editingProduct) {
+      setProductName(editingProduct.productName || '');
+      setBrand(editingProduct.brand || '');
+      setCategory(editingProduct.category || '');
+      setDescription(editingProduct.description || '');
+      setPrice(editingProduct.price || '');
+      setImageUrl(editingProduct.imageUrl || '');
+    }
+  }, [editingProduct]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
-      const productRef = ref(database, 'products');
-      await push(productRef, {
-        productName,
-        brand,
-        category,
-        description,
-        price: parseFloat(price),
-        imageUrl,
-        createdAt: new Date().toISOString(),
-      });
-
-      alert('Product added successfully!');
-      onClose(); // Close the modal
+      if (editingProduct) {
+        // Update existing product
+        const productRef = ref(database, `products/${editingProduct.id}`);
+        await update(productRef, {
+          productName,
+          brand,
+          category,
+          description,
+          price: parseFloat(price),
+          imageUrl,
+        });
+        alert("Product updated successfully!");
+      } else {
+        // Add new product
+        const productRef = ref(database, "products");
+        await push(productRef, {
+          productName,
+          brand,
+          category,
+          description,
+          price: parseFloat(price),
+          imageUrl,
+          createdAt: new Date().toISOString(),
+        });
+        alert("Product added successfully!");
+      }
+      onClose(); // Close the form modal
     } catch (error) {
-      console.error('Error adding product:', error);
-      alert('Failed to add product.');
+      console.error("Error saving product:", error);
+      alert("Failed to save product.");
     }
   };
 
@@ -83,7 +108,7 @@ const AddProductForm = ({ onClose }) => {
         required
       />
       <button type="submit" className="w-full bg-green-500 text-white p-2 rounded">
-        Add Product
+        {editingProduct ? "Update Product" : "Add Product"}
       </button>
     </form>
   );

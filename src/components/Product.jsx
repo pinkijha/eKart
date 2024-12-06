@@ -1,24 +1,25 @@
-import React, { useState, useEffect } from 'react';
-import Header from './Header';
-import { ref, onValue } from 'firebase/database';
-import {database} from '../utils/firebase';
+import React, { useState, useEffect } from "react";
+import Header from "./Header";
+import { ref, onValue, remove } from "firebase/database";
+import { database } from "../utils/firebase";
 import { FaPlusSquare } from "react-icons/fa";
 import { RiEdit2Fill } from "react-icons/ri";
 import { MdDelete } from "react-icons/md";
 import { FaEye } from "react-icons/fa";
-import Modal from './Modal';
-import AddProductForm from './AddProductForm';
+import Modal from "./Modal";
+import AddProductForm from "./AddProductForm";
 
 const Product = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [productList, setProductList] = useState([]);
+  const [editingProduct, setEditingProduct] = useState(null);
 
   const handleOpenModal = () => setIsModalOpen(true);
   const handleCloseModal = () => setIsModalOpen(false);
 
   // Fetch product data from Firebase Realtime Database
   useEffect(() => {
-    const productRef = ref(database, 'products');
+    const productRef = ref(database, "products");
     const unsubscribe = onValue(productRef, (snapshot) => {
       const data = snapshot.val();
       if (data) {
@@ -35,7 +36,18 @@ const Product = () => {
     return () => unsubscribe(); // Cleanup subscription
   }, []);
 
-  const thStyle = 'border border-gray-300 px-4 py-2';
+  const handleDelete = async (id) => {
+    try {
+      const productRef = ref(database, `products/${id}`);
+      await remove(productRef);
+      alert("Product deleted successfully!");
+    } catch (error) {
+      console.error("Error deleting product:", error);
+      alert("Failed to delete product.");
+    }
+  };
+
+  const thStyle = "border border-gray-300 px-4 py-2";
   const tdStyle = "border border-gray-300 px-4 py-2";
 
   return (
@@ -48,7 +60,13 @@ const Product = () => {
 
         <Modal isOpen={isModalOpen} onClose={handleCloseModal}>
           <h2 className="text-xl font-bold mb-4">Add New Product</h2>
-          <AddProductForm onClose={handleCloseModal} />
+          <AddProductForm
+    onClose={() => {
+      setEditingProduct(null); // Reset editing state on close
+      handleCloseModal();
+    }}
+    editingProduct={editingProduct}
+  />
         </Modal>
 
         {/* Add Product Button */}
@@ -76,7 +94,10 @@ const Product = () => {
             </thead>
             <tbody>
               {productList.map((product) => (
-                <tr key={product.id} className="hover:bg-gray-50 duration-200 text-sm">
+                <tr
+                  key={product.id}
+                  className="hover:bg-gray-50 duration-200 text-sm"
+                >
                   {/* <td className={tdStyle}>{product.id}</td> */}
                   <td className={tdStyle}>
                     <img
@@ -95,10 +116,19 @@ const Product = () => {
                       <button className="text-green-600 text-2xl font-semibold shadow-sm p-1 rounded-lg hover:scale-110 duration-200">
                         <FaEye />
                       </button>
-                      <button className="text-blue-600 text-2xl font-semibold shadow-sm p-1 rounded-lg hover:scale-110 duration-200">
+                      <button
+                        onClick={() => {
+                          setEditingProduct(product);
+                          handleOpenModal();
+                        }}
+                        className="text-blue-600 text-2xl font-semibold shadow-sm p-1 rounded-lg hover:scale-110 duration-200"
+                      >
                         <RiEdit2Fill />
                       </button>
-                      <button className="text-red-600 text-2xl font-semibold shadow-sm p-1 rounded-lg hover:scale-110 duration-200">
+                      <button
+                        onClick={() => handleDelete(product.id)}
+                        className="text-red-600 text-2xl font-semibold shadow-sm p-1 rounded-lg hover:scale-110 duration-200"
+                      >
                         <MdDelete />
                       </button>
                     </span>
