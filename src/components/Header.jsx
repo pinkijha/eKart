@@ -6,10 +6,11 @@ import { useDispatch } from "react-redux";
 import {addUser, removeUser} from '../utils/userSlice';
 import { CiSearch } from "react-icons/ci";
 
-const Header = () => {
+const Header = ({ onSearch }) => {
   const navigate = useNavigate();
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false); // State to track login status
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
+  const [searchTerm, setSearchTerm] = useState("");
 
   // Handle user logout
   const handleSignOut = () => {
@@ -45,6 +46,11 @@ const Header = () => {
     return () => unsubscribe();
   }, []);
 
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value);
+    onSearch(e.target.value);  // Pass the search term to parent component
+  };
+
   return (
     <div className="flex justify-between shadow-lg">
       <div className="flex">
@@ -59,7 +65,12 @@ const Header = () => {
       {isUserLoggedIn && (
         <div className="mr-3 flex justify-between items-center">
         <div className="px-3 py-2 border border-gray-400 rounded-l-full">
-        <input className="outline-none" type="text" placeholder="Search" />
+        <input className="outline-none" 
+            type="text"
+            placeholder="Search"
+            value={searchTerm}
+            onChange={handleSearchChange}  // Update search term
+         />
         </div>
 
         <button className="px-4 py-2 border border-gray-400 rounded-r-full bg-gray-100">

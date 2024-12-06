@@ -15,6 +15,8 @@ const Product = () => {
   const [editingProduct, setEditingProduct] = useState(null);
   const [viewProduct, setViewProduct] = useState(null);
   const [isViewModalOpen, setIsViewModalOpen] = useState(false);
+  const [filteredProductList, setFilteredProductList] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
 
   const handleOpenModal = () => setIsModalOpen(true);
   const handleCloseModal = () => setIsModalOpen(false);
@@ -30,13 +32,26 @@ const Product = () => {
           ...product,
         }));
         setProductList(products);
+        setFilteredProductList(products);  // Initially show all products
       } else {
         setProductList([]);
+        setFilteredProductList([]);
       }
     });
 
     return () => unsubscribe(); // Cleanup subscription
   }, []);
+
+    // Handle search query change
+    const handleSearch = (query) => {
+      setSearchTerm(query);
+      const filteredProducts = productList.filter(
+        (product) =>
+          product.productName.toLowerCase().includes(query.toLowerCase()) ||
+          product.brand.toLowerCase().includes(query.toLowerCase())
+      );
+      setFilteredProductList(filteredProducts); // Update the filtered product list
+    };
 
   // Handle View product
   const handleViewProduct = (product) => {
@@ -61,7 +76,8 @@ const Product = () => {
 
   return (
     <div>
-      <Header />
+      <Header  onSearch={handleSearch} />
+      
       <div className="md:mt-7 mt-2 flex flex-col items-center justify-center">
         <h2 className="text-2xl font-bold text-blue-900 hover:scale-95 duration-200">
           All Products List
@@ -120,7 +136,7 @@ const Product = () => {
               </tr>
             </thead>
             <tbody>
-              {productList.map((product) => (
+              {filteredProductList.map((product) => (
                 <tr
                   key={product.id}
                   className="hover:bg-gray-50 duration-200 text-sm"
