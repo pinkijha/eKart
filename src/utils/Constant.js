@@ -1,3 +1,3 @@
-export const P_IMG = 'https://naturalgoodies.in/wp-content/uploads/2020/10/rose-daycream1.jpg';
-export const P_IMG1 = 'https://remylaure.in/cdn/shop/products/gentlecleansinggel.jpg?v=1723545168';
-export const P_IM2 = 'https://m.media-amazon.com/images/I/51dMEW+u+PL.jpg';
+export const B_IMG = 'https://mesugatra.com/cdn/shop/collections/mamaearth-logo.png?v=1691132147';
+export const B_IMG1 = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKSbAm_KCcWKO0HQQ3OyvUmEx8x7qebTab6g&s';
+export const B_IM2 = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQEInycQvHHDYz_OHstYepW8E4czhLO05x-4A&s';
