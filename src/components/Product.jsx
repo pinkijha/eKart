@@ -32,7 +32,7 @@ const Product = () => {
           ...product,
         }));
         setProductList(products);
-        setFilteredProductList(products);  // Initially show all products
+        setFilteredProductList(products); // Initially show all products
       } else {
         setProductList([]);
         setFilteredProductList([]);
@@ -42,16 +42,16 @@ const Product = () => {
     return () => unsubscribe(); // Cleanup subscription
   }, []);
 
-    // Handle search query change
-    const handleSearch = (query) => {
-      setSearchTerm(query);
-      const filteredProducts = productList.filter(
-        (product) =>
-          product.productName.toLowerCase().includes(query.toLowerCase()) ||
-          product.brand.toLowerCase().includes(query.toLowerCase())
-      );
-      setFilteredProductList(filteredProducts); // Update the filtered product list
-    };
+  // Handle search query change
+  const handleSearch = (query) => {
+    setSearchTerm(query);
+    const filteredProducts = productList.filter(
+      (product) =>
+        product.productName.toLowerCase().includes(query.toLowerCase()) ||
+        product.brand.toLowerCase().includes(query.toLowerCase())
+    );
+    setFilteredProductList(filteredProducts); // Update the filtered product list
+  };
 
   // Handle View product
   const handleViewProduct = (product) => {
@@ -76,8 +76,8 @@ const Product = () => {
 
   return (
     <div>
-      <Header  onSearch={handleSearch} />
-      
+      <Header onSearch={handleSearch} />
+
       <div className="md:mt-7 mt-2 flex flex-col items-center justify-center">
         <h2 className="text-2xl font-bold text-blue-900 hover:scale-95 duration-200">
           All Products List
@@ -86,28 +86,40 @@ const Product = () => {
         <Modal isOpen={isModalOpen} onClose={handleCloseModal}>
           <h2 className="text-xl font-bold mb-4">Add New Product</h2>
           <AddProductForm
-    onClose={() => {
-      setEditingProduct(null); // Reset editing state on close
-      handleCloseModal();
-    }}
-    editingProduct={editingProduct}
-  />
+            onClose={() => {
+              setEditingProduct(null); // Reset editing state on close
+              handleCloseModal();
+            }}
+            editingProduct={editingProduct}
+          />
         </Modal>
 
-
-        <Modal isOpen={isViewModalOpen} onClose={() => setIsViewModalOpen(false)}>
+        <Modal
+          isOpen={isViewModalOpen}
+          onClose={() => setIsViewModalOpen(false)}
+        >
           {viewProduct && (
             <div>
-              <h2 className="text-xl font-bold mb-4">{viewProduct.productName}</h2>
+              <h2 className="text-xl font-bold mb-4">
+                {viewProduct.productName}
+              </h2>
               <img
                 src={viewProduct.imageUrl}
                 alt={viewProduct.productName}
                 className="w-full h-64 object-cover rounded-lg mb-4"
               />
-              <p><strong>Brand:</strong> {viewProduct.brand}</p>
-              <p><strong>Category:</strong> {viewProduct.category}</p>
-              <p><strong>Description:</strong> {viewProduct.description}</p>
-              <p><strong>Price:</strong> ${viewProduct.price}</p>
+              <p>
+                <strong>Brand:</strong> {viewProduct.brand}
+              </p>
+              <p>
+                <strong>Category:</strong> {viewProduct.category}
+              </p>
+              <p>
+                <strong>Description:</strong> {viewProduct.description}
+              </p>
+              <p>
+                <strong>Price:</strong> ${viewProduct.price}
+              </p>
             </div>
           )}
         </Modal>
@@ -116,7 +128,7 @@ const Product = () => {
         <div className="relative">
           <button
             onClick={handleOpenModal}
-            className="absolute -top-8 right-0 text-4xl text-orange-600"
+            className="absolute -top-8 hover:scale-90 right-0 text-4xl text-orange-600"
           >
             <FaPlusSquare />
           </button>
@@ -156,8 +168,10 @@ const Product = () => {
                   <td className={tdStyle}>${product.price}</td>
                   <td className={tdStyle}>
                     <span className="flex space-x-2">
-                      <button  onClick={() => handleViewProduct(product)}
-                       className="text-green-600 text-2xl font-semibold shadow-sm p-1 rounded-lg hover:scale-110 duration-200">
+                      <button
+                        onClick={() => handleViewProduct(product)}
+                        className="text-green-600 text-2xl font-semibold shadow-sm p-1 rounded-lg hover:scale-110 duration-200"
+                      >
                         <FaEye />
                       </button>
                       <button

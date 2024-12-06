@@ -5,9 +5,11 @@ import { auth } from '../utils/firebase'
 import { onAuthStateChanged } from 'firebase/auth'
 import { useDispatch } from 'react-redux';
 import {addUser, removeUser} from '../utils/userSlice'
-import Product from './Product'
+import Product from './Product';
+import Brands from './Brands';
 
 const Home = () => {
+  
   const dispatch = useDispatch();
     const appRouter = createBrowserRouter([
         {
@@ -17,21 +19,15 @@ const Home = () => {
         {
             path: '/product',
             element: <Product/>
+        },,
+        {
+            path: '/brand',
+            element: <Brands />
         },
         
    ] )
 
-  //  useEffect(() =>{
-  //   onAuthStateChanged(auth, (user) => {
-  //     if (user) {
-  //       const {uid, email, displayName } = user;
-  //       dispatch(addUser({uid:uid, email:email, displayName:displayName}))
-  //     } else {
-  //       dispatch(removeUser());
-  //     }
-  //   });
-
-  //  },[])
+  
 
   return (
     <div>

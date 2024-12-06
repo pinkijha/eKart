@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { auth } from "../utils/firebase";
 import { signOut, onAuthStateChanged } from "firebase/auth";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import {addUser, removeUser} from '../utils/userSlice';
 import { CiSearch } from "react-icons/ci";
+import Brands from "./Brands";
+import Product from "./Product";
 
 const Header = ({ onSearch }) => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false); // State to track login status
   const dispatch = useDispatch();
   const [searchTerm, setSearchTerm] = useState("");
@@ -51,6 +54,15 @@ const Header = ({ onSearch }) => {
     onSearch(e.target.value);  // Pass the search term to parent component
   };
 
+  // Toggle Page
+  const handleTogglePage = () => {
+    if (location.pathname === "/product") {
+      navigate("/brand"); // Navigate to the Brands page
+    } else {
+      navigate("/product"); // Navigate to the Product page
+    }
+  };
+
   return (
     <div className="flex justify-between shadow-lg">
       <div className="flex">
@@ -64,7 +76,14 @@ const Header = ({ onSearch }) => {
       {/* Show user icon and Log Out button only if the user is logged in */}
       {isUserLoggedIn && (
         <div className="mr-3 flex justify-between items-center">
+          
+          <button onClick={handleTogglePage} className="md:mr-3 cursor-pointer hover:scale-95
+          px-2 py-1 rounded-xl bg-black text-white  text-md duration-200">
+              {location.pathname === "/product" ? "See Brands" : "See Products"}
+             </button>
+          
         <div className="px-3 py-2 border border-gray-400 rounded-l-full">
+
         <input className="outline-none" 
             type="text"
             placeholder="Search"
@@ -94,6 +113,7 @@ const Header = ({ onSearch }) => {
 
         </div>
       )}
+      
     </div>
   );
 };
