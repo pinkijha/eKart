@@ -5,8 +5,6 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import {addUser, removeUser} from '../utils/userSlice';
 import { CiSearch } from "react-icons/ci";
-import Brands from "./Brands";
-import Product from "./Product";
 
 const Header = ({ onSearch }) => {
   const navigate = useNavigate();

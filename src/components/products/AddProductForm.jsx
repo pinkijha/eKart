@@ -1,6 +1,6 @@
 import { push, ref, update } from "firebase/database";
 import { useState, useEffect } from "react";
-import { database } from "../utils/firebase"; // Ensure proper import
+import { database } from "../../utils/firebase"; // Ensure proper import
 
 const AddProductForm = ({ onClose, editingProduct }) => {
   const [productName, setProductName] = useState('');

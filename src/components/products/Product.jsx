@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import Header from "./Header";
+import Header from "../Header";
 import { ref, onValue, remove } from "firebase/database";
-import { database } from "../utils/firebase";
+import { database } from "../../utils/firebase";
 import { FaPlusSquare } from "react-icons/fa";
 import { RiEdit2Fill } from "react-icons/ri";
 import { MdDelete } from "react-icons/md";
