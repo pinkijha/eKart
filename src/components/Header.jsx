@@ -3,7 +3,7 @@ import { auth } from "../utils/firebase";
 import { signOut, onAuthStateChanged } from "firebase/auth";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import {addUser, removeUser} from '../utils/userSlice';
+import { addUser, removeUser } from '../utils/userSlice';
 import { CiSearch } from "react-icons/ci";
 
 const Header = ({ onSearch }) => {
@@ -33,8 +33,8 @@ const Header = ({ onSearch }) => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         // User is signed in        
-        const {uid, email, displayName } = user;
-        dispatch(addUser({uid:uid, email:email, displayName:displayName}))
+        const { uid, email, displayName } = user;
+        dispatch(addUser({ uid: uid, email: email, displayName: displayName }));
         setIsUserLoggedIn(true);
       } else {
         // User is signed out        
@@ -62,56 +62,63 @@ const Header = ({ onSearch }) => {
   };
 
   return (
-    <div className="flex justify-between shadow-lg">
-      <div className="flex">
+    <div className="flex justify-between items-center p-4 shadow-lg">
+      {/* Logo Section */}
+      <div className="flex items-center">
         <img
-          className="m-2 cursor-pointer rounded-full h-[30px] w-[30px] md:w-[50px] md:h-[50px]"
+          className="cursor-pointer rounded-full h-[30px] w-[30px] md:w-[50px] md:h-[50px]"
           src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRis5-f_HdX16whAjiZJrd-qmN-zinc3aQ0Cw&s"
           alt="logo"
         />
       </div>
-      <div>{/* Add other header elements here */}</div>
-      {/* Show user icon and Log Out button only if the user is logged in */}
-      {isUserLoggedIn && (
-        <div className="mr-3 flex justify-between items-center">
-          
-          <button onClick={handleTogglePage} className="md:mr-3 cursor-pointer hover:scale-95
-          px-2 py-1 rounded-xl bg-black text-white  text-md duration-200">
-              {location.pathname === "/product" ? "See Brands" : "See Products"}
-             </button>
-          
-        <div className="px-3 py-2 border border-gray-400 rounded-l-full">
 
-        <input className="outline-none" 
-            type="text"
-            placeholder="Search"
-            value={searchTerm}
-            onChange={handleSearchChange}  // Update search term
-         />
-        </div>
-
-        <button className="px-4 py-2 border border-gray-400 rounded-r-full bg-gray-100">
-          <CiSearch size={"24px"} />
-        </button>
-        
-        <div className="flex md:ml-2 shadow-xl items-center bg-slate-200
-         cursor-pointer m-1 hover:bg-slate-300 hover:scale-90 duration-200 rounded-full">
-          <img
-            className="w-[30px] h-[30px] my-2 mx-2 rounded-2xl"
-            alt="userIcon"
-            src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
-          />
+      {/* Navigation and Search Section */}
+      <div className="flex items-center space-x-4">
+        {/* Toggle Page Button */}
+        {isUserLoggedIn && (
           <button
-            onClick={handleSignOut}
-            className="font-semibold text-sm rounded-lg space-x-1 mr-2"
+            onClick={handleTogglePage}
+            className="md:mr-3 cursor-pointer hover:scale-95 px-4 py-2 rounded-xl bg-black text-white text-sm md:text-md"
           >
-            Log Out
+            {location.pathname === "/product" ? "See Brands" : "See Products"}
           </button>
+        )}
+
+        {/* Search Bar */}
+        <div className="flex items-center space-x-2">
+          <div className="relative">
+            <input
+              className="outline-none px-4 py-2 border border-gray-400 rounded-full w-32 sm:w-48 md:w-64"
+              type="text"
+              placeholder="Search"
+              value={searchTerm}
+              onChange={handleSearchChange} // Update search term
+            />
+            <button className="absolute right-2 top-1/2 transform -translate-y-1/2 px-2 py-1 bg-gray-200 rounded-full">
+              <CiSearch size={"24px"} />
+            </button>
+          </div>
         </div>
 
-        </div>
-      )}
-      
+        {/* User Section (Log Out & Profile) */}
+        {isUserLoggedIn && (
+          <div className="flex items-center space-x-4">
+            <div className="flex items-center bg-slate-200 cursor-pointer px-3 py-2 rounded-full hover:bg-slate-300 hover:scale-95 duration-200">
+              <img
+                className="w-[30px] h-[30px] rounded-full"
+                alt="userIcon"
+                src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
+              />
+              <button
+                onClick={handleSignOut}
+                className="font-semibold text-sm ml-2"
+              >
+                Log Out
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

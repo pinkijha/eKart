@@ -105,7 +105,7 @@ const Login = () => {
           ref={email}
           type="email"
           placeholder="Email address"
-          className="mt-2 w-full py-3 px-7
+          className="mt-2 w-full py-3 px-7 
              rounded bg-black text-white border border-grayText focus:border-white"
         />
 

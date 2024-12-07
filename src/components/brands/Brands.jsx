@@ -129,7 +129,7 @@ const Brands = () => {
                     <img
                       src={brand.logo}
                       alt={brand.name}
-                      className="w-16 h-16 object-cover rounded-lg"
+                      className="md:w-[220px] md:h-20 hover:scale-110 object-cover rounded-lg"
                     />
                   </td>
                   <td className="border px-4 py-2">{brand.name}</td>
