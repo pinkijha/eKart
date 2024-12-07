@@ -17,6 +17,7 @@ const Product = () => {
   const [isViewModalOpen, setIsViewModalOpen] = useState(false);
   const [filteredProductList, setFilteredProductList] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [brands, setBrands] = useState([]);
 
   const handleOpenModal = () => setIsModalOpen(true);
   const handleCloseModal = () => setIsModalOpen(false);
@@ -40,6 +41,21 @@ const Product = () => {
     });
 
     return () => unsubscribe(); // Cleanup subscription
+  }, []);
+
+  // Brand Association
+  useEffect(() => {
+    const brandsRef = ref(database, "brands");
+    onValue(brandsRef, (snapshot) => {
+      const data = snapshot.val();
+      const brandList = data
+        ? Object.entries(data).map(([id, details]) => ({
+            id,
+            ...details,
+          }))
+        : [];
+      setBrands(brandList);
+    });
   }, []);
 
   // Handle search query change
@@ -91,6 +107,7 @@ const Product = () => {
               handleCloseModal();
             }}
             editingProduct={editingProduct}
+            brands={brands} // Pass brands as a prop
           />
         </Modal>
 
